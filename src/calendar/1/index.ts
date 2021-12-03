@@ -1,6 +1,6 @@
 import CalendarDay from '../calendarDay';
 
-export class Day extends CalendarDay {
+export default class Day1 extends CalendarDay {
   public solveA(): number {
     return 1;
   }

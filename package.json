@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "solve": "node dist/index.js $1 $2",
+    "solve": "node dist/index.js",
     "build": "yarn clean && tsc && yarn copy-assets",
     "dev": "tsc --watch",
     "lint": "eslint --ignore-path .gitignore --ext .ts src",

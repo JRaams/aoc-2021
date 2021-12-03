@@ -5,6 +5,11 @@ export default abstract class CalendarDay {
     this.dayNumber = dayNumber;
   }
 
+  static async loadDay(dayNumber: string): Promise<CalendarDay> {
+    const day = await import(`./${dayNumber}`);
+    return new day.default();
+  }
+
   public solve(part: string): number {
     if (part === 'a') {
       return this.solveA();
