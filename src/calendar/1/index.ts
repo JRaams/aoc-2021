@@ -1,3 +1,10 @@
-const input = require('input.txt');
+import CalendarDay from '../calendarDay';
 
-console.info('a');
+export class Day extends CalendarDay {
+  public solveA(): number {
+    return 1;
+  }
+  public solveB(): number {
+    return 2;
+  }
+}
