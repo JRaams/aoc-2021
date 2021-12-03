@@ -1,6 +1,6 @@
 import CalendarDay from '../calendarDay';
 
-export default class Day1 extends CalendarDay {
+export default class Day2 extends CalendarDay {
   commandToPos: any = {
     forward: { x: 1, y: 0 },
     down: { x: 0, y: -1 },
