@@ -39,9 +39,11 @@ export default class Day3 extends CalendarDay {
     let column = 0;
     let oxygenGenRatings = JSON.parse(JSON.stringify(this.lines));
     while (oxygenGenRatings.length > 1) {
-      const test = this.getMostCommonValue(oxygenGenRatings.map((l: string) => l[column]));
+      const bitCounts = this.getBitCount(oxygenGenRatings.map((l: string) => l[column]));
+      const mostCommonBit = bitCounts['0'] > bitCounts['1'] ? '0' : '1';
+
       oxygenGenRatings = oxygenGenRatings.filter((line: string) => {
-        return line[column] == test;
+        return line[column] == mostCommonBit;
       });
       column++;
     }
@@ -50,9 +52,11 @@ export default class Day3 extends CalendarDay {
     column = 0;
     let scrubberRatings = JSON.parse(JSON.stringify(this.lines));
     while (scrubberRatings.length > 1) {
-      const test = this.getLeastCommonValue(scrubberRatings.map((l: string) => l[column]));
+      const bitCounts = this.getBitCount(scrubberRatings.map((l: string) => l[column]));
+      const leastCommonBit = bitCounts['1'] < bitCounts['0'] ? '1' : '0';
+
       scrubberRatings = scrubberRatings.filter((line: string) => {
-        return line[column] == test;
+        return line[column] == leastCommonBit;
       });
       column++;
     }
@@ -62,43 +66,16 @@ export default class Day3 extends CalendarDay {
     return oxygenGenRating * scrubberRating;
   }
 
-  getMostCommonValue(values: string[]) {
-    let counts = new Map<string, number>([
-      ['0', 0],
-      ['1', 0],
-    ]);
+  getBitCount(values: string[]) {
+    const count: any = {
+      '0': 0,
+      '1': 0,
+    };
 
     values.forEach((item: string) => {
-      if (counts.get(item) === undefined) {
-        counts.set(item, 0);
-      }
-      counts.set(item, counts.get(item)! + 1);
+      count[item]++;
     });
 
-    if (counts.get('0')! > counts.get('1')!) {
-      return '0';
-    } else {
-      return '1';
-    }
-  }
-
-  getLeastCommonValue(values: string[]) {
-    let counts = new Map<string, number>([
-      ['0', 0],
-      ['1', 0],
-    ]);
-
-    values.forEach((item: string) => {
-      if (counts.get(item) === undefined) {
-        counts.set(item, 0);
-      }
-      counts.set(item, counts.get(item)! + 1);
-    });
-
-    if (counts.get('0')! > counts.get('1')!) {
-      return '1';
-    } else {
-      return '0';
-    }
+    return count;
   }
 }
