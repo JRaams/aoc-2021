@@ -3,11 +3,24 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "lint": "eslint --ignore-path .gitignore --ext .ts src",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.(ts|json)\""
   },
   "author": "JRaams <47593569+JRaams@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.5.0",
+    "@typescript-eslint/parser": "^5.5.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-standard": "^16.0.3",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-promise": "^5.2.0",
+    "prettier": "^2.5.0",
     "tsc": "^2.0.3",
     "typescript": "^4.5.2"
   }
