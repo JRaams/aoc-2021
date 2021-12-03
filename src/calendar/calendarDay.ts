@@ -1,13 +1,19 @@
-export default abstract class CalendarDay {
-  protected dayNumber: number;
+import path from 'path';
+import fs from 'fs';
 
-  constructor(dayNumber: number) {
-    this.dayNumber = dayNumber;
+export default abstract class CalendarDay {
+  protected lines: string[];
+
+  constructor(day: string) {
+    const inputPath = path.join(__dirname, day, `input.txt`);
+    const inputBuffer = fs.readFileSync(inputPath);
+    const input = inputBuffer.toString();
+    this.lines = input.split('\n');
   }
 
   static async loadDay(dayNumber: string): Promise<CalendarDay> {
     const day = await import(`./${dayNumber}`);
-    return new day.default(); // eslint-disable-line new-cap
+    return new day.default(dayNumber); // eslint-disable-line new-cap
   }
 
   public solve(part: string): number {
