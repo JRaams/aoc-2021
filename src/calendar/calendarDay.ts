@@ -7,7 +7,7 @@ export default abstract class CalendarDay {
 
   static async loadDay(dayNumber: string): Promise<CalendarDay> {
     const day = await import(`./${dayNumber}`);
-    return new day.default();
+    return new day.default(); // eslint-disable-line new-cap
   }
 
   public solve(part: string): number {
