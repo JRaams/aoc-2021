@@ -1,0 +1,14 @@
+{
+  "name": "aoc-2021",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "JRaams <47593569+JRaams@users.noreply.github.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "tsc": "^2.0.3",
+    "typescript": "^4.5.2"
+  }
+}
