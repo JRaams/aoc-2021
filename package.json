@@ -3,16 +3,21 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "solve": "node dist/index.js $1 $2",
+    "build": "yarn clean && tsc && yarn copy-assets",
     "dev": "tsc --watch",
     "lint": "eslint --ignore-path .gitignore --ext .ts src",
-    "format": "prettier --ignore-path .gitignore --write \"**/*.(ts|json)\""
+    "format": "prettier --ignore-path .gitignore --write \"**/*.(ts|json)\"",
+    "clean": "rimraf dist/",
+    "copy-assets": "copyfiles -u 1 src/**/calendar/**/input.txt dist"
   },
   "author": "JRaams <47593569+JRaams@users.noreply.github.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^16.11.11",
     "@typescript-eslint/eslint-plugin": "^5.5.0",
     "@typescript-eslint/parser": "^5.5.0",
+    "copyfiles": "^2.4.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard": "^16.0.3",
@@ -21,6 +26,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^5.2.0",
     "prettier": "^2.5.0",
+    "rimraf": "^3.0.2",
     "tsc": "^2.0.3",
     "typescript": "^4.5.2"
   }
