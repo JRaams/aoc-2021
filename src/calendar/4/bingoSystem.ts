@@ -21,6 +21,9 @@ export class Board {
     }
   }
 
+  /**
+   * @param num the number to draw
+   */
   public tryDrawNumber(num: number): void {
     for (let y = 0; y < this.values.length; y++) {
       const row = this.values[y];
@@ -33,6 +36,9 @@ export class Board {
     }
   }
 
+  /**
+   * @returns Whether the board has bingo
+   */
   public hasBingo(): boolean {
     // Check bingo for rows
     for (let y = 0; y < this.values.length; y++) {
@@ -53,6 +59,9 @@ export class Board {
     return false;
   }
 
+  /**
+   * @returns The sum of values from all cells that have not been drawn
+   */
   public sumOfUnmarked(): number {
     let sum = 0;
 
@@ -71,7 +80,6 @@ export class Board {
 export class BingoSystem {
   private numbers: number[];
   public boards: Board[];
-  public lastNumber: number = -1;
 
   constructor(input: string[]) {
     // Get numbers
@@ -86,18 +94,20 @@ export class BingoSystem {
     }
   }
 
-  public draw(): void {
+  /**
+   * @returns the number that was drawn
+   */
+  public draw(): number {
     const num = this.numbers.splice(0, 1)[0];
-    if (num === undefined) {
-      console.info('No numbers left to draw...');
-      return;
-    }
-    this.lastNumber = num;
     this.boards.forEach((board) => board.tryDrawNumber(num));
+    return num;
   }
 
-  public checkWinner(): Board | null {
-    let result: Board | null = null;
+  /**
+   * @returns The winning board if applicable, else undefined
+   */
+  public checkWinner(): Board | undefined {
+    let result: Board | undefined;
 
     this.boards.forEach((board) => {
       if (board.hasBingo()) {
