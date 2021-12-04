@@ -70,7 +70,7 @@ export class Board {
 
 export class BingoSystem {
   private numbers: number[];
-  private boards: Board[];
+  public boards: Board[];
   public lastNumber: number = -1;
 
   constructor(input: string[]) {
@@ -88,6 +88,10 @@ export class BingoSystem {
 
   public draw(): void {
     const num = this.numbers.splice(0, 1)[0];
+    if (num === undefined) {
+      console.info('No numbers left to draw...');
+      return;
+    }
     this.lastNumber = num;
     this.boards.forEach((board) => board.tryDrawNumber(num));
   }

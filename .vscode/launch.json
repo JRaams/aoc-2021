@@ -10,7 +10,7 @@
       "name": "Launch Program",
       "skipFiles": ["<node_internals>/**"],
       "program": "${workspaceFolder}/src/index.ts",
-      "args": ["4", "a"],
+      "args": ["4", "b"],
       "outFiles": ["${workspaceFolder}/**/*.js"]
     }
   ]
