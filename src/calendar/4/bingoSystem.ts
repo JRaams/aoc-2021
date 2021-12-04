@@ -20,11 +20,58 @@ export class Board {
       }
     }
   }
+
+  public tryDrawNumber(num: number): void {
+    for (let y = 0; y < this.values.length; y++) {
+      const row = this.values[y];
+      for (let x = 0; x < row.length; x++) {
+        if (row[x].value === num) {
+          row[x].isDrawn = true;
+          break;
+        }
+      }
+    }
+  }
+
+  public hasBingo(): boolean {
+    // Check bingo for rows
+    for (let y = 0; y < this.values.length; y++) {
+      const row = this.values[y];
+
+      if (row.every((col) => col.isDrawn)) {
+        return true;
+      }
+    }
+
+    // Check bingo for cols
+    for (let x = 0; x < this.values[0].length; x++) {
+      if (this.values.every((row) => row[x].isDrawn)) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  public sumOfUnmarked(): number {
+    let sum = 0;
+
+    this.values.forEach((row) => {
+      row.forEach((cell) => {
+        if (!cell.isDrawn) {
+          sum += cell.value;
+        }
+      });
+    });
+
+    return sum;
+  }
 }
 
 export class BingoSystem {
   private numbers: number[];
   private boards: Board[];
+  public lastNumber: number = -1;
 
   constructor(input: string[]) {
     // Get numbers
@@ -37,5 +84,23 @@ export class BingoSystem {
       this.boards.push(new Board(input.splice(0, 5)));
       input.splice(0, 1);
     }
+  }
+
+  public draw(): void {
+    const num = this.numbers.splice(0, 1)[0];
+    this.lastNumber = num;
+    this.boards.forEach((board) => board.tryDrawNumber(num));
+  }
+
+  public checkWinner(): Board | null {
+    let result: Board | null = null;
+
+    this.boards.forEach((board) => {
+      if (board.hasBingo()) {
+        result = board;
+      }
+    });
+
+    return result;
   }
 }
