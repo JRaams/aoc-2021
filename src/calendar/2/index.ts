@@ -4,7 +4,7 @@ export default class Day2 extends CalendarDay {
   commandToPos: any = {
     forward: { x: 1, y: 0 },
     down: { x: 0, y: -1 },
-    up: { x: 0, y: 1 },
+    up: { x: 0, y: 1 }
   };
 
   public solveA(): number {
@@ -27,13 +27,13 @@ export default class Day2 extends CalendarDay {
 
     this.lines.forEach((line: string) => {
       const [command, valueStr] = line.split(' ');
-      let value = Number(valueStr);
+      const value = Number(valueStr);
 
-      if (command == 'down') {
+      if (command === 'down') {
         aim -= value;
-      } else if (command == 'up') {
+      } else if (command === 'up') {
         aim += value;
-      } else if (command == 'forward') {
+      } else if (command === 'forward') {
         xSum += value;
         ySum -= aim * value;
       }

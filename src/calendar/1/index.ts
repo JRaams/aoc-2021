@@ -21,8 +21,8 @@ export default class Day1 extends CalendarDay {
     let result = 0;
 
     for (let i = 0; i < numbers.length - 3; i++) {
-      let windowA = numbers[i] + numbers[i + 1] + numbers[i + 2];
-      let windowB = numbers[i + 1] + numbers[i + 2] + numbers[i + 3];
+      const windowA = numbers[i] + numbers[i + 1] + numbers[i + 2];
+      const windowB = numbers[i + 1] + numbers[i + 2] + numbers[i + 3];
 
       if (windowB > windowA) {
         result++;

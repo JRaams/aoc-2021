@@ -5,7 +5,7 @@ export default abstract class CalendarDay {
   protected lines: string[];
 
   constructor(day: string) {
-    const inputPath = path.join(__dirname, day, `input.txt`);
+    const inputPath = path.join(__dirname, day, 'input.txt');
     const inputBuffer = fs.readFileSync(inputPath);
     const input = inputBuffer.toString();
     this.lines = input.split('\n');

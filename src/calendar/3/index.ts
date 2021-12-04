@@ -3,10 +3,10 @@ import CalendarDay from '../calendarDay';
 export default class Day3 extends CalendarDay {
   public solveA(): number {
     // Calculate bit sums (add values of each column where 0 -> -1)
-    let bitSums = Array(this.lines[0].length).fill(0);
+    const bitSums = Array(this.lines[0].length).fill(0);
     this.lines.forEach((line) => {
       for (let i = 0; i < line.length; i++) {
-        if (line[i] == '0') {
+        if (line[i] === '0') {
           bitSums[i]--;
         } else {
           bitSums[i]++;
@@ -43,7 +43,7 @@ export default class Day3 extends CalendarDay {
       const mostCommonBit = bitCounts['0'] > bitCounts['1'] ? '0' : '1';
 
       oxygenGenRatings = oxygenGenRatings.filter((line: string) => {
-        return line[column] == mostCommonBit;
+        return line[column] === mostCommonBit;
       });
       column++;
     }
@@ -56,20 +56,20 @@ export default class Day3 extends CalendarDay {
       const leastCommonBit = bitCounts['1'] < bitCounts['0'] ? '1' : '0';
 
       scrubberRatings = scrubberRatings.filter((line: string) => {
-        return line[column] == leastCommonBit;
+        return line[column] === leastCommonBit;
       });
       column++;
     }
 
-    let oxygenGenRating = parseInt(oxygenGenRatings[0], 2);
-    let scrubberRating = parseInt(scrubberRatings[0], 2);
+    const oxygenGenRating = parseInt(oxygenGenRatings[0], 2);
+    const scrubberRating = parseInt(scrubberRatings[0], 2);
     return oxygenGenRating * scrubberRating;
   }
 
   getBitCount(values: string[]) {
     const count: any = {
-      '0': 0,
-      '1': 0,
+      0: 0,
+      1: 0
     };
 
     values.forEach((item: string) => {
