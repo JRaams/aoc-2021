@@ -12,25 +12,36 @@ class Point {
 }
 
 class Floor {
-  public points: Point[];
+  public points: Point[][];
 
   constructor() {
     this.points = [];
   }
 
   getPoint(x: number, y: number): Point {
-    // Try finding already existing point
-    for (let index = 0; index < this.points.length; index++) {
-      const element = this.points[index];
-      if (element.x === x && element.y === y) {
-        return element;
-      }
+    if (this.points[y] === undefined) {
+      this.points[y] = [];
     }
 
-    // Create new point
-    const newPoint = new Point(x, y);
-    this.points.push(newPoint);
-    return newPoint;
+    if (this.points[y][x] === undefined) {
+      this.points[y][x] = new Point(x, y);
+    }
+
+    return this.points[y][x];
+  }
+
+  getDangerousPoints(): Point[] {
+    const result: Point[] = [];
+
+    this.points.forEach((row: Point[]) => {
+      row.forEach((p: Point) => {
+        if (p.covers > 1) {
+          result.push(p);
+        }
+      });
+    });
+
+    return result;
   }
 }
 
@@ -59,8 +70,7 @@ export default class Day5 extends CalendarDay {
       }
     });
 
-    const dangerousPoints = floor.points.filter((p) => p.covers > 1);
-    return dangerousPoints.length;
+    return floor.getDangerousPoints().length;
   }
 
   public solveB(): number {
