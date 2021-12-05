@@ -64,9 +64,6 @@ export default class Day5 extends CalendarDay {
         for (let x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
           floor.getPoint(x, y1).covers++;
         }
-        // x and y both different -> diagonal line
-      } else {
-        // console.info('diagonal');
       }
     });
 
@@ -74,6 +71,37 @@ export default class Day5 extends CalendarDay {
   }
 
   public solveB(): number {
-    return 5.2;
+    const floor = new Floor();
+
+    this.lines.forEach((line: string) => {
+      const points = line.split(' -> ');
+      const [x1, y1] = points[0].split(',').map(Number);
+      const [x2, y2] = points[1].split(',').map(Number);
+
+      // x the same -> vertical line
+      if (x1 === x2) {
+        for (let y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
+          floor.getPoint(x1, y).covers++;
+        }
+        // y the same -> horizontal line
+      } else if (y1 === y2) {
+        for (let x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
+          floor.getPoint(x, y1).covers++;
+        }
+        // x and y both different -> diagonal line
+      } else {
+        const max = Math.abs(x2 - x1);
+        let x = x1;
+        let y = y1;
+
+        for (let index = 0; index <= max; index++) {
+          floor.getPoint(x, y).covers++;
+          x += x2 > x1 ? 1 : -1;
+          y += y2 > y1 ? 1 : -1;
+        }
+      }
+    });
+
+    return floor.getDangerousPoints().length;
   }
 }
