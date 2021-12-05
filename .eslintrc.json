@@ -12,6 +12,7 @@
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
     "semi": "off",
-    "space-before-function-paren": ["error", "never"]
+    "space-before-function-paren": ["error", "never"],
+    "comma-dangle": ["error", "only-multiline"]
   }
 }

@@ -69,7 +69,7 @@ export default class Day3 extends CalendarDay {
   getBitCount(values: string[]) {
     const count: any = {
       0: 0,
-      1: 0
+      1: 0,
     };
 
     values.forEach((item: string) => {

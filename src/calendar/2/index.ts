@@ -4,7 +4,7 @@ export default class Day2 extends CalendarDay {
   commandToPos: any = {
     forward: { x: 1, y: 0 },
     down: { x: 0, y: -1 },
-    up: { x: 0, y: 1 }
+    up: { x: 0, y: 1 },
   };
 
   public solveA(): number {
