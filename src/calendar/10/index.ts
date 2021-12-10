@@ -1,75 +1,46 @@
 import CalendarDay from '../calendarDay';
 
 export default class Day10 extends CalendarDay {
+  charScores = new Map([
+    ['', 0],
+    [')', 3],
+    [']', 57],
+    ['}', 1197],
+    ['>', 25137],
+  ]);
+
   public solveA(): number {
     const lines = this.lines;
 
     const illegalChars = lines.map(this.getFirstIllegalChar);
-    const illegalCharScoreSum = this.getTotalCharScores(illegalChars);
+    const result = illegalChars.reduce((total, current) => total + this.charScores.get(current)!, 0);
 
-    return illegalCharScoreSum;
+    return result;
   }
 
-  getFirstIllegalChar(line: string): string | undefined {
+  getFirstIllegalChar(line: string): string {
     const bracketOpen = ['(', '[', '{', '<'];
     const bracketClose = [')', ']', '}', '>'];
     const stack = [];
 
     for (const char of line) {
-      // Opening element
+      // Push opening bracket to stack
       if (bracketOpen.includes(char)) {
         stack.push(char);
         continue;
       }
 
-      // Not an opening element AND the stack is empty (nonsense)
-      if (stack.length === 0) {
-        return undefined;
-      }
-
+      // Pop last item from stack, make sure it matches bracket option
       const top = stack.pop();
-
-      if (char === ')') {
-        if (top !== '(') {
-          return ')';
-        }
-      } else if (char === '}') {
-        if (top !== '{') {
-          return '}';
-        }
-      } else if (char === ']') {
-        if (top !== '[') {
-          return ']';
-        }
-      } else if (char === '>') {
-        if (top !== '<') {
-          return '>';
+      for (let i = 0; i < bracketClose.length; i++) {
+        const closingChar = bracketClose[i];
+        if (char === closingChar && top !== bracketOpen[i]) {
+          return char;
         }
       }
     }
 
-    return undefined;
-    // return stack.length === 0;
-  }
-
-  getTotalCharScores(chars: (string | undefined)[]): number {
-    let result = 0;
-
-    chars.forEach((char: string | undefined) => {
-      if (char === undefined) {
-        return;
-      } else if (char === ')') {
-        result += 3;
-      } else if (char === ']') {
-        result += 57;
-      } else if (char === '}') {
-        result += 1197;
-      } else if (char === '>') {
-        result += 25137;
-      }
-    });
-
-    return result;
+    return '';
   }
 
   public solveB(): number {
