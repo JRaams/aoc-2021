@@ -113,6 +113,17 @@ export default class Day11 extends CalendarDay {
   }
 
   public solveB(): number {
-    return 11.2;
+    const grid = new Grid(this.lines);
+    const totalOctopuses = grid.octopuses.length * grid.octopuses[0].length;
+
+    let step = 1;
+
+    let flashCount = grid.step();
+    while (flashCount !== totalOctopuses) {
+      flashCount = grid.step();
+      step++;
+    }
+
+    return step;
   }
 }
