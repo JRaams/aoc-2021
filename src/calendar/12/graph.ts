@@ -9,15 +9,20 @@ export default class Graph {
     return this.allPaths.length;
   }
 
-  public addVertex(v: string): void {
-    this.vertices.add(v);
-    this.edges.set(v, []);
-    this.visited.set(v, false);
-  }
-
   public addEdge(edge1: string, edge2: string): void {
+    this.addVertex(edge1);
+    this.addVertex(edge2);
+
     this.edges.get(edge1)!.push(edge2);
     this.edges.get(edge2)!.push(edge1);
+  }
+
+  private addVertex(v: string): void {
+    this.vertices.add(v);
+    if (this.edges.get(v) === undefined) {
+      this.edges.set(v, []);
+    }
+    this.visited.set(v, false);
   }
 
   public DFS(start: string, end: string): void {

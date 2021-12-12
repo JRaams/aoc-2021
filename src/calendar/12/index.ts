@@ -35,14 +35,6 @@ export default class Day12 extends CalendarDay {
   public solveA(): number {
     const graph = new Graph();
 
-    // TODO: Cleanup
-    // Load all vertices and create list of edges
-    this.lines.forEach((line: string) => {
-      const [cave1, cave2] = line.split('-');
-      graph.addVertex(cave1);
-      graph.addVertex(cave2);
-    });
-    // Load all vertices and create list of edges
     this.lines.forEach((line: string) => {
       const [cave1, cave2] = line.split('-');
       graph.addEdge(cave1, cave2);
