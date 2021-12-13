@@ -10,7 +10,7 @@ export default class Day12 extends CalendarDay {
       graph.addEdge(cave1, cave2);
     });
 
-    return graph.count('start', [], true);
+    return graph.pathCount(true);
   }
 
   public solveB(): number {
@@ -21,6 +21,6 @@ export default class Day12 extends CalendarDay {
       graph.addEdge(cave1, cave2);
     });
 
-    return graph.count('start', [], false);
+    return graph.pathCount(false);
   }
 }

@@ -15,19 +15,18 @@ export default class Graph {
     }
   }
 
-  public count(node: string = 'start', visited: string[] = [], doubled: boolean = false) {
+  public pathCount(doubled: boolean, node: string = 'start', visited: string[] = []) {
     if (node === 'end') return 1;
-
+    if (node === 'start' && visited.includes('start')) return 0;
     let total = 0;
 
     this.edges.get(node)!.forEach((next: string) => {
-      if (next === 'start') return;
       if (visited.includes(next) && doubled) return;
 
       const nextVisited = node === node.toLowerCase() ? [...visited, node] : visited;
       const nextDoubled = visited.includes(next) ? true : doubled;
 
-      total += this.count(next, nextVisited, nextDoubled);
+      total += this.pathCount(nextDoubled, next, nextVisited);
     });
 
     return total;
