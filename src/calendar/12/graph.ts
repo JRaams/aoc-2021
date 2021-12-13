@@ -1,12 +1,5 @@
 export default class Graph {
-  private vertices = new Set<string>();
   private edges = new Map<string, string[]>();
-  private currentPath: string[] = [];
-  private allPaths: string[][] = [];
-
-  public get pathCount() {
-    return this.allPaths.length;
-  }
 
   public addEdge(edge1: string, edge2: string): void {
     this.addVertex(edge1);
@@ -17,38 +10,26 @@ export default class Graph {
   }
 
   private addVertex(v: string): void {
-    this.vertices.add(v);
     if (this.edges.get(v) === undefined) {
       this.edges.set(v, []);
     }
   }
 
-  public getPaths(start: string, end: string, visited: any = {}): void {
-    if (visited[start] === undefined) {
-      visited[start] = 0;
-    }
+  public count(node: string = 'start', visited: string[] = [], doubled: boolean = false) {
+    if (node === 'end') return 1;
 
-    if (!this.isUpperCase(start) && visited[start] === 1) {
-      return;
-    }
+    let total = 0;
 
-    visited[start]++;
-    this.currentPath.push(start);
+    this.edges.get(node)!.forEach((next: string) => {
+      if (next === 'start') return;
+      if (visited.includes(next) && doubled) return;
 
-    if (start === end) {
-      this.allPaths.push(JSON.parse(JSON.stringify(this.currentPath)));
-      this.currentPath.pop();
-      return;
-    }
+      const nextVisited = node === node.toLowerCase() ? [...visited, node] : visited;
+      const nextDoubled = visited.includes(next) ? true : doubled;
 
-    this.edges.get(start)!.forEach((next) => {
-      this.getPaths(next, end, JSON.parse(JSON.stringify(visited)));
+      total += this.count(next, nextVisited, nextDoubled);
     });
 
-    this.currentPath.pop();
-  }
-
-  private isUpperCase(str: string): boolean {
-    return str === str.toUpperCase();
+    return total;
   }
 }
