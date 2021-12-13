@@ -10,7 +10,7 @@ export default class Day12 extends CalendarDay {
       graph.addEdge(cave1, cave2);
     });
 
-    graph.DFS('start', 'end');
+    graph.getPaths('start', 'end');
     return graph.pathCount;
   }
 
@@ -22,7 +22,7 @@ export default class Day12 extends CalendarDay {
       graph.addEdge(cave1, cave2);
     });
 
-    graph.DFS('start', 'end');
+    graph.getPaths('start', 'end', 2);
     return graph.pathCount;
   }
 }

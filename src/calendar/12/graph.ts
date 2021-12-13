@@ -23,18 +23,24 @@ export default class Graph {
     }
   }
 
-  public DFS(start: string, end: string, visited: any = {}): void {
+  public getPaths(start: string, end: string, smallCaveLimit: number = 1, visited: any = {}): void {
     if (visited[start] === undefined) {
       visited[start] = 0;
     }
 
-    if (!this.isUpperCase(start) && visited[start] === 1) {
-      return;
+    const isSmall = !this.isUpperCase(start);
+    const limit = start === 'start' ? 1 : smallCaveLimit;
+    const reachedLimit = visited[start] === limit;
+
+    if (isSmall) {
+      visited[start]++;
+
+      if (reachedLimit) {
+        return;
+      }
     }
 
-    visited[start]++;
     this.currentPath.push(start);
-
     if (start === end) {
       this.allPaths.push(JSON.parse(JSON.stringify(this.currentPath)));
       this.currentPath.pop();
@@ -42,7 +48,7 @@ export default class Graph {
     }
 
     this.edges.get(start)!.forEach((next) => {
-      this.DFS(next, end, JSON.parse(JSON.stringify(visited)));
+      this.getPaths(next, end, smallCaveLimit, JSON.parse(JSON.stringify(visited)));
     });
 
     this.currentPath.pop();
