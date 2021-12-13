@@ -1,7 +1,6 @@
 export default class Graph {
   private vertices = new Set<string>();
   private edges = new Map<string, string[]>();
-  private visited = new Map<string, boolean>();
   private currentPath: string[] = [];
   private allPaths: string[][] = [];
 
@@ -22,32 +21,31 @@ export default class Graph {
     if (this.edges.get(v) === undefined) {
       this.edges.set(v, []);
     }
-    this.visited.set(v, false);
   }
 
-  public DFS(start: string, end: string): void {
-    if (this.visited.get(start) === true) {
+  public DFS(start: string, end: string, visited: any = {}): void {
+    if (visited[start] === undefined) {
+      visited[start] = 0;
+    }
+
+    if (!this.isUpperCase(start) && visited[start] === 1) {
       return;
     }
 
-    if (!this.isUpperCase(start)) {
-      this.visited.set(start, true);
-    }
+    visited[start]++;
     this.currentPath.push(start);
 
     if (start === end) {
       this.allPaths.push(JSON.parse(JSON.stringify(this.currentPath)));
-      this.visited.set(start, false);
       this.currentPath.pop();
       return;
     }
 
     this.edges.get(start)!.forEach((next) => {
-      this.DFS(next, end);
+      this.DFS(next, end, JSON.parse(JSON.stringify(visited)));
     });
 
     this.currentPath.pop();
-    this.visited.set(start, false);
   }
 
   private isUpperCase(str: string): boolean {
