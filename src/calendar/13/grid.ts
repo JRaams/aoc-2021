@@ -11,8 +11,6 @@ interface Fold {
 export default class Grid {
   private dots: Dot[];
   private folds: Fold[];
-  private maxY: number = 0;
-  private maxX: number = 0;
 
   constructor(input: string[]) {
     this.dots = [];
@@ -26,15 +24,36 @@ export default class Grid {
       } else if (line.length) {
         const [x, y] = line.split(',').map(Number);
         this.dots.push({ x, y });
-
-        if (x > this.maxX) {
-          this.maxX = x;
-        }
-        if (y > this.maxY) {
-          this.maxY = y;
-        }
       }
     });
+  }
+
+  public get dotCount(): number {
+    return Array.from(this.dots.values()).length;
+  }
+
+  public get maxY(): number {
+    let maxY = 0;
+
+    this.dots.forEach((dot: Dot) => {
+      if (dot.y > maxY) {
+        maxY = dot.y;
+      }
+    });
+
+    return maxY;
+  }
+
+  public get maxX(): number {
+    let maxX = 0;
+
+    this.dots.forEach((dot: Dot) => {
+      if (dot.x > maxX) {
+        maxX = dot.x;
+      }
+    });
+
+    return maxX;
   }
 
   private getDot(dots: Dot[], x: number, y: number): Dot | undefined {
@@ -44,7 +63,6 @@ export default class Grid {
         return dot;
       }
     }
-
     return undefined;
   }
 
@@ -80,9 +98,5 @@ export default class Grid {
     });
 
     this.dots = uniqueDots;
-  }
-
-  public get dotCount(): number {
-    return Array.from(this.dots.values()).length;
   }
 }
