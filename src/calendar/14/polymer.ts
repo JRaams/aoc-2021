@@ -50,4 +50,21 @@ export default class Polymer {
   public get size() {
     return (Object.values(this.pairs) as number[]).reduce((total, current) => total + current);
   }
+
+  public get elements(): any {
+    const result: any = {};
+
+    for (const [pair, value] of Object.entries(this.pairs)) {
+      const chars: string[] = pair.split('');
+
+      if (result[chars[0]] === undefined) {
+        result[chars[0]] = 0;
+      }
+      result[chars[0]] += value;
+    }
+
+    result[this.template[this.template.length - 1]]++;
+
+    return result;
+  }
 }
