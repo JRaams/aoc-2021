@@ -8,25 +8,22 @@ export default class Polymer {
     this.template = lines.splice(0, 2)[0];
     this.rules = lines.map((l) => l.split(' -> '));
 
-    // Fill charCount and pairs with default (0) values
-    const alfa = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    alfa.split('').forEach((char: string) => {
-      this.charCount[char] = 0;
-
-      alfa.split('').forEach((char2: string) => {
-        this.pairs[char + char2] = 0;
-      });
-    });
-
     // Set initial pairs based on template
     for (let i = 0; i < this.template.length - 1; i++) {
-      this.pairs[this.template[i] + this.template[i + 1]]++;
+      this.inc(this.pairs, this.template[i] + this.template[i + 1], 1);
     }
 
     // Count chars that are in the template
     this.template.split('').forEach((c) => {
-      this.charCount[c]++;
+      this.inc(this.charCount, c, 1);
     });
+  }
+
+  private inc(arr: any, idx: string, amount: number): void {
+    if (arr[idx] === undefined) {
+      arr[idx] = 0;
+    }
+    arr[idx] += amount;
   }
 
   public step(): void {
@@ -37,22 +34,20 @@ export default class Polymer {
       const rule = this.rules.find((r) => r[0] === pair);
       if (!rule) continue;
 
-      for (let i = 0; i < (value as number); i++) {
-        queue.push({ pair, rule });
-      }
+      queue.push({ pair, rule, value });
     }
 
     // For each item in the queue, update pairs/charcount
-    for (const { pair, rule } of queue) {
-      this.pairs[pair]--;
+    for (const { pair, rule, value } of queue) {
+      this.inc(this.pairs, pair, -value);
 
       const leftPair = pair[0] + rule[1];
-      this.pairs[leftPair]++;
+      this.inc(this.pairs, leftPair, value);
 
       const rightPair = rule[1] + pair[1];
-      this.pairs[rightPair]++;
+      this.inc(this.pairs, rightPair, value);
 
-      this.charCount[rule[1]]++;
+      this.inc(this.charCount, rule[1], value);
     }
   }
 

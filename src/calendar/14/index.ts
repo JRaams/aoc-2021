@@ -17,6 +17,16 @@ export default class Day14 extends CalendarDay {
   }
 
   public solveB(): number {
-    return 14.2;
+    const polymer = new Polymer(this.lines);
+
+    for (let i = 0; i < 40; i++) {
+      polymer.step();
+    }
+
+    const elementCount = (Object.values(polymer.charCount) as number[]).filter((v) => v);
+    elementCount.sort((a, b) => a - b);
+
+    const result = elementCount[elementCount.length - 1] - elementCount[0];
+    return result;
   }
 }
