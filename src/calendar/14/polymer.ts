@@ -2,7 +2,7 @@ export default class Polymer {
   private template: string;
   private rules: string[][];
   private pairs: any = {};
-  public charCount: any = {};
+  private charCount: any = {};
 
   constructor(lines: string[]) {
     this.template = lines.splice(0, 2)[0];
@@ -19,6 +19,18 @@ export default class Polymer {
     });
   }
 
+  public findOptimalPolymer(steps: number): number {
+    for (let i = 0; i < steps; i++) {
+      this.step();
+    }
+
+    const elementCount = (Object.values(this.charCount) as number[]).filter((v) => v);
+    elementCount.sort((a, b) => a - b);
+
+    const result = elementCount[elementCount.length - 1] - elementCount[0];
+    return result;
+  }
+
   private inc(arr: any, idx: string, amount: number): void {
     if (arr[idx] === undefined) {
       arr[idx] = 0;
@@ -26,7 +38,7 @@ export default class Polymer {
     arr[idx] += amount;
   }
 
-  public step(): void {
+  private step(): void {
     const queue: any = [];
 
     // Find out what rules match each pair
@@ -49,9 +61,5 @@ export default class Polymer {
 
       this.inc(this.charCount, rule[1], value);
     }
-  }
-
-  public get size() {
-    return (Object.values(this.pairs) as number[]).reduce((total, current) => total + current);
   }
 }
