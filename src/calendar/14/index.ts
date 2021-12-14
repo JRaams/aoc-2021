@@ -9,7 +9,7 @@ export default class Day14 extends CalendarDay {
       polymer.step();
     }
 
-    const elementCount: number[] = Object.values(polymer.elements);
+    const elementCount = (Object.values(polymer.charCount) as number[]).filter((v) => v);
     elementCount.sort((a, b) => a - b);
 
     const result = elementCount[elementCount.length - 1] - elementCount[0];
