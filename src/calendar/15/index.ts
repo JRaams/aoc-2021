@@ -1,17 +1,30 @@
 import CalendarDay from '../calendarDay';
-import { Dijkstra, Node } from './dijkstra';
+import { Dijkstra } from './dijkstra';
 
 export default class Day15 extends CalendarDay {
   public solveA(): number {
-    const dijkstra = new Dijkstra(this.lines);
-    const startNode = dijkstra.findNode(0, 0) as Node;
-    const distances = dijkstra.getDistances(startNode);
-    const lastNode = dijkstra.nodeList[dijkstra.nodeList.length - 1];
+    const dijkstra = new Dijkstra();
+    dijkstra.addNodesA(this.lines);
+    dijkstra.setEdges();
 
-    return distances.get(lastNode)!;
+    const nodes = dijkstra.nodeList;
+    const startNode = nodes[0];
+    const distances = dijkstra.getDistances(startNode);
+    const lastNode = nodes[nodes.length - 1];
+
+    return distances.get(lastNode.idx)!;
   }
 
   public solveB(): number {
-    return 15.2;
+    const dijkstra = new Dijkstra();
+    dijkstra.addNodesB(this.lines);
+    dijkstra.setEdges();
+
+    const nodes = dijkstra.nodeList;
+    const startNode = nodes[0];
+    const distances = dijkstra.getDistances(startNode);
+    const lastNode = nodes[nodes.length - 1];
+
+    return distances.get(lastNode.idx)!;
   }
 }
