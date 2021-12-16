@@ -8,6 +8,8 @@ export default class Packet {
     this.version = parseInt(bits.splice(0, 3).join(''), 2);
     this.typeID = parseInt(bits.splice(0, 3).join(''), 2);
 
+    console.info('new packet: ', this.version, this.typeID, bits.length);
+
     // Packets with type ID 4 represent a literal value. Literal value packets encode a single binary number.
     // Every other type of packet (any packet with a type ID other than 4) represent an operator that performs
     // some calculation on one or more sub-packets contained within.
@@ -49,19 +51,18 @@ export default class Packet {
       // Create packet with the leftovers
       this.children.push(new Packet(childPacketBits));
     } else if (lengthTypeID === 1) {
+      const subPacketCount: number = parseInt(bits.splice(0, 11).join(''), 2);
+
+      const subPacketSize = Math.floor(bits.length / subPacketCount) - 1;
+      const removeFiller = bits.splice(0, subPacketCount * subPacketSize);
+
+      for (let i = 0; i < subPacketCount; i++) {
+        this.children.push(new Packet(removeFiller.splice(0, subPacketSize)));
+      }
     }
+  }
 
-    //   // 15-bit field
-    //   if (lengthTypeID === 0) {
-    //     const subPacketLength = parseInt(bin.splice(0, 15).join(''), 2);
-    //     const a = bin.splice(0, 11).join('');
-    //     const packet1 = parseInt(a, 2);
-    //     const packet2 = parseInt(bin.splice(0, 16).join(''), 2);
-    //     console.info('a');
-    //     // TODO: this value should be parsed as a new packet...
-
-    //     // 11-bit field
-    //   } else {
-    //   }
+  public sumVersionNumbers(): number {
+    return this.version + this.children.map((c) => c.sumVersionNumbers()).reduce((t, c) => t + c, 0);
   }
 }

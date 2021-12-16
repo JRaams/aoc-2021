@@ -10,8 +10,7 @@ export default class Day16 extends CalendarDay {
     const input: string = this.lines[0];
     const inputBits: string[] = input.split('').map(hexToBin).join('').split('');
     const packet = new Packet(inputBits);
-
-    return 16.1;
+    return packet.sumVersionNumbers();
   }
 
   public solveB(): number {
