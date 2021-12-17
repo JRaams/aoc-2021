@@ -16,7 +16,7 @@ interface Result {
 export default class Trench {
   min: Coord;
   max: Coord;
-  tiles: Set<Coord>;
+  tiles: Coord[];
 
   constructor(targetArea: string) {
     const areaStr = targetArea
@@ -26,10 +26,10 @@ export default class Trench {
     const [x1, x2] = areaStr[0].split('..').map(Number);
     const [y1, y2] = areaStr[1].split('..').map(Number);
 
-    const tiles = new Set<Coord>();
+    const tiles: Coord[] = [];
     for (let y = y1; y <= y2; y++) {
       for (let x = x1; x <= x2; x++) {
-        tiles.add({ x, y });
+        tiles.push({ x, y });
       }
     }
 
@@ -68,18 +68,16 @@ export default class Trench {
       // Update bullet position and calculate new velocity
       position.x += velocity.x;
       position.y += velocity.y;
-
-      // the probe's x velocity it decreases by 1 if it is greater than 0
-      // increases by 1 if it is less than 0,
+      // the probe's x velocity decreases by 1 if it is greater than 0 (drag)
       if (velocity.x > 0) {
         velocity.x--;
-      } else if (velocity.x < 0) {
-        velocity.x++;
       }
       velocity.y--;
 
       // Mark potential highest position
-      if (position.y > highestY) highestY = position.y;
+      if (position.y > highestY) {
+        highestY = position.y;
+      }
 
       // Check if we already overshot the target area
       if (position.x > this.max.x || position.y < this.min.y) {
@@ -87,13 +85,7 @@ export default class Trench {
       }
 
       // Check if we hit the target area
-      let matchingTile: Coord | undefined;
-      this.tiles.forEach((tile: Coord) => {
-        if (tile.x === position.x && tile.y === position.y) {
-          matchingTile = tile;
-        }
-      });
-      if (matchingTile) {
+      if (this.tiles.find((t: Coord) => t.x === position.x && t.y === position.y)) {
         hitTargetArea = true;
         break;
       }
