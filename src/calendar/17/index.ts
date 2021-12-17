@@ -5,10 +5,12 @@ export default class Day17 extends CalendarDay {
   public solveA(): number {
     const trench = new Trench(this.lines[0]);
     const result = trench.getHighestProbePosition();
-    return result;
+    return result.maxY;
   }
 
   public solveB(): number {
-    return 17.2;
+    const trench = new Trench(this.lines[0]);
+    const result = trench.getHighestProbePosition();
+    return result.hitCount;
   }
 }

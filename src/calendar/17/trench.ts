@@ -8,6 +8,11 @@ interface ShotResult {
   highestY: number;
 }
 
+interface Result {
+  hitCount: number;
+  maxY: number;
+}
+
 export default class Trench {
   min: Coord;
   max: Coord;
@@ -22,8 +27,8 @@ export default class Trench {
     const [y1, y2] = areaStr[1].split('..').map(Number);
 
     const tiles = new Set<Coord>();
-    for (let y = y1; y < y2; y++) {
-      for (let x = x1; x < x2; x++) {
+    for (let y = y1; y <= y2; y++) {
+      for (let x = x1; x <= x2; x++) {
         tiles.add({ x, y });
       }
     }
@@ -33,21 +38,25 @@ export default class Trench {
     this.tiles = tiles;
   }
 
-  public getHighestProbePosition(): number {
-    let result = 0;
+  public getHighestProbePosition(): Result {
+    let hitCount = 0;
+    let maxY = 0;
 
-    for (let vx = 0; vx < this.max.x; vx++) {
+    for (let vx = 0; vx < this.max.x + 1; vx++) {
       for (let vy = this.min.y; vy < Math.abs(this.min.y); vy++) {
         const velocity: Coord = { x: vx, y: vy };
         const { hitTargetArea, highestY } = this.fire(velocity);
 
         if (hitTargetArea) {
-          if (highestY > result) result = highestY;
+          hitCount++;
+          if (highestY > maxY) {
+            maxY = highestY;
+          }
         }
       }
     }
 
-    return result;
+    return { hitCount, maxY };
   }
 
   private fire(velocity: Coord): ShotResult {
